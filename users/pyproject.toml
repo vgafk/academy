@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "users"
+version = "0.1.0"
+description = ""
+authors = ["Yartsev Vladimir <v.rainovsky@yandex.ru>"]
+readme = "README.md"
+packages = [{include = "users", from = "src"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+strawberry-graphql = {extras = ["fastapi"], version = "^0.133.5"}
+uvicorn = "^0.18.3"
+aiosqlite = "^0.17.0"
+fastapi = "^0.85.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
