@@ -42,7 +42,7 @@ async def get_groups_by_faculty(faculty_id: int) -> List[Group]:
         return result
 
 
-async def add_group(new_group: Dict['str', 'str']):
+async def add_group(new_group: Dict[str, str]):
     async with get_session() as session:
         try:
             query = insert(Group).values(new_group)

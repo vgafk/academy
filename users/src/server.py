@@ -17,7 +17,7 @@ schema = Schema(query=Query,
                 enable_federation_2=True,
                 config=StrawberryConfig(auto_camel_case=False))
 
-graphql_router = GraphQLRouter(schema)
+graphql_router = GraphQLRouter(schema) # , graphiql=False)
 app.include_router(graphql_router, prefix="/graphql")
 
 if __name__ == '__main__':

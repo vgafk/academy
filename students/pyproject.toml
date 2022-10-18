@@ -10,7 +10,11 @@ python = "^3.10"
 strawberry-graphql = {extras = ["fastapi"], version = "^0.134.3"}
 uvicorn = "^0.18.3"
 sqlalchemy = {extras = ["aiosqlite"], version = "^1.4.41"}
+taskipy = "^1.10.3"
 
+
+[tool.taskipy.tasks]
+server = "uvicorn server:app --host localhost --port 11801 --reload"
 
 [build-system]
 requires = ["poetry-core"]

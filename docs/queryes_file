@@ -1,0 +1,5 @@
+curl localhost:11802/graphql  -F operations='{ "query": "mutation($textFile: Upload!){ upload_groups(file: $textFile) }", "variables": { "textFile": null } }'   -F map='{ "textFile": ["variables.textFile"] }'   -F textFile=@groups.csv 
+
+
+
+curl localhost:11801/graphql  -F operations='{ "query": "mutation($textFile: Upload!){ upload_students(file: $textFile) }", "variables": { "textFile": null } }'   -F map='{ "textFile": ["variables.textFile"] }'   -F textFile=@students_id.csv 

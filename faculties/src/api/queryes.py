@@ -1,7 +1,6 @@
 from typing import Optional, List
 
 import strawberry
-from fastapi.responses import JSONResponse
 from strawberry.file_uploads import Upload
 
 from api.types import Group, Faculty
