@@ -130,11 +130,13 @@ dmypy.json
 
 .idea/
 
+# Node.js modeles
 node_modules/
 
-docs/
-
+# database
 *.db
 
 source_data/
 
+# router Apollo server
+gateway/router
