@@ -131,3 +131,10 @@ dmypy.json
 .idea/
 
 node_modules/
+
+docs/
+
+*.db
+
+source_data/
+

@@ -2,7 +2,8 @@ from typing import Optional, List
 
 import strawberry
 
-from api.types import User, SelectUserResponse, UserAddResponse, UserAddSucces, UserLoginExists, InDevelopment
+from api.types import User, SelectUserResponse, UserAddResponse, UserAddSucces, UserLoginExists, InDevelopment, \
+    UserNotFound
 from db.resolvers import get_users, get_user, add_user
 
 
@@ -17,7 +18,10 @@ class Query:
     @strawberry.field
     async def user(self, user_id: Optional[int] = None, login: Optional[str] = None) -> SelectUserResponse:
         users = await get_user(user_id=user_id, login=login)
-        return User.from_instance(users)
+        if users:
+            return User.from_instance(users)
+        else:
+            return UserNotFound
 
 
 @strawberry.type

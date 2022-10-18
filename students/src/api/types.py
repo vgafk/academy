@@ -2,11 +2,15 @@ from typing import Optional
 import strawberry
 
 from db import models
-from db.resolvers import get_user_student_data
+from db.resolvers import get_user_student_data, get_student_data
 
 
 @strawberry.federation.type(keys=["id"])
-# @strawberry.type
+class Group:
+    id: strawberry.ID
+
+
+@strawberry.federation.type(keys=["id"], extend=True)
 class Student:
     id: strawberry.ID
     user_id: int
@@ -18,6 +22,10 @@ class Student:
     email: Optional[str]
     phone: Optional[str]
     group_id: int
+
+    @strawberry.field
+    async def group(self, root: 'Student') -> Group:
+        return Group(id=root.group_id)
 
     @classmethod
     def from_instance(cls, instance: models.Student) -> "Student":
@@ -33,6 +41,13 @@ class Student:
             phone=instance.phone,
             group_id=instance.group_id
         )
+
+    @classmethod
+    async def resolve_reference(cls, id: strawberry.ID) -> "Student":
+        res = await get_student_data(int(id))
+        return Student.from_instance(res)
+
+
 
 
 @strawberry.type

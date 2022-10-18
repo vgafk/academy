@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-strawberry-graphql = {extras = ["fastapi"], version = "^0.133.5"}
+strawberry-graphql = {extras = ["fastapi"], version = "^0.134.3"}
 uvicorn = "^0.18.3"
 sqlalchemy = {extras = ["aiosqlite"], version = "^1.4.41"}
 

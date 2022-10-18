@@ -1,43 +1,45 @@
 from typing import Optional, Dict
 import strawberry
-from strawberry.types import Info
 
-#
 from db import models
-from db.resolvers import get_group
-
-# from db.resolvers import get_user_student_data
+from db.resolvers import get_group, get_faculty
 
 
-@strawberry.type
-class Group:
-    id: Optional[int]
+@strawberry.federation.type
+class Faculty:
+    id: strawberry.ID
     name: str
-    full_name: Optional[str]
-    faculty_id: int
 
     @classmethod
-    def from_instance(cls, instance: models.Group) -> "Group":
+    def from_instance(cls, instance: models.Faculty) -> "Faculty":
         return cls(
-            id=instance.id,
-            name=instance.name,
-            full_name=instance.full_name,
-            faculty_id=instance.faculty_id
+            id=strawberry.ID(str(instance.id)),
+            name=instance.name
         )
 
 
 @strawberry.federation.type(extend=True, keys=["id"])
-class Student:
+class Group:
     id: strawberry.ID = strawberry.federation.field(external=True)
+    name: Optional[str]
+    full_name: Optional[str]
+    faculty_id: Optional[int]
 
     @strawberry.field
-    async def group(self) -> Group:
-        res = await get_group(7)
-        return Group.from_instance(res)
-        # return Group(id=1, name='name1', faculty_id=1, full_name='full')
+    async def faculty(self) -> Faculty:
+        res = await get_faculty(faculty_id=self.faculty_id)
+        return Faculty.from_instance(res)
 
     @classmethod
-    # def resolve_reference(cls, id: strawberry.ID) -> object:
-    def resolve_reference(cls, **kwargs) -> object:
-        print(kwargs)
-        return Student(id=id)
+    async def resolve_reference(cls, id: strawberry.ID) -> object:
+        res = await get_group(group_id=int(id))
+        return Group.from_instance(res)
+
+    @classmethod
+    def from_instance(cls, instance: models.Group) -> "Group":
+        return cls(
+            id=strawberry.ID(str(instance.id)),
+            name=instance.name,
+            full_name=instance.full_name,
+            faculty_id=instance.faculty_id
+        )
