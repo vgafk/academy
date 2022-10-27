@@ -16,11 +16,25 @@ directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boole
 
 directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
 
+type Absent
+  @join__type(graph: STUDENTS)
+{
+  id: ID!
+  student_id: Int!
+  date: Date!
+  number: Int!
+}
+
+"""Date (isoformat)"""
+scalar Date
+  @join__type(graph: STUDENTS)
+
 type Faculty
   @join__type(graph: FACULTIES)
 {
   id: ID!
   name: String!
+  groups: [Group!]!
 }
 
 type Group
@@ -31,6 +45,7 @@ type Group
   name: String @join__field(graph: FACULTIES)
   full_name: String @join__field(graph: FACULTIES)
   faculty_id: Int @join__field(graph: FACULTIES)
+  study_year: Int! @join__field(graph: FACULTIES)
   faculty: Faculty! @join__field(graph: FACULTIES)
 }
 
@@ -58,8 +73,12 @@ enum link__Purpose {
 
 type Mutation
   @join__type(graph: FACULTIES)
+  @join__type(graph: STUDENTS)
 {
-  upload_file(file: Upload!): String!
+  upload_groups(file: Upload!): String! @join__field(graph: FACULTIES)
+  upload_students(file: Upload!): String! @join__field(graph: STUDENTS)
+  add_apsent(student_id: Int!, date: String!, number: Int!): String! @join__field(graph: STUDENTS)
+  delete_apsent(student_id: Int!, date: String!, number: Int!): String! @join__field(graph: STUDENTS)
 }
 
 type Query
@@ -101,6 +120,7 @@ type Student
   phone: String
   group_id: Int!
   group: Group!
+  absents: [Absent!]!
 }
 
 type StudentNotFound
@@ -111,6 +131,7 @@ type StudentNotFound
 
 scalar Upload
   @join__type(graph: FACULTIES)
+  @join__type(graph: STUDENTS)
 
 type User
   @join__type(graph: STUDENTS, key: "id", extension: true)

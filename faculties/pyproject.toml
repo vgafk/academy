@@ -13,7 +13,8 @@ sqlalchemy = {extras = ["aiosqlite"], version = "^1.4.41"}
 taskipy = "^1.10.3"
 
 [tool.taskipy.tasks]
-server = "uvicorn server:app --host localhost --port 11802 --reload"
+base = "python server.py"
+server = "uvicorn server:app --host 0.0.0.0 --port 11803 --reload"
 
 [build-system]
 requires = ["poetry-core"]

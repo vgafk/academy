@@ -17,6 +17,7 @@ class Group(Base):
     name = Column(String(length=20), nullable=False, unique=True)
     full_name = Column(String(length=255), nullable=True)
     faculty_id = Column(ForeignKey("faculties.id"))
+    study_year = Column(Integer, nullable=False)
 
 
 

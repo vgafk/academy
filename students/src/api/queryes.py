@@ -4,7 +4,7 @@ import strawberry
 from strawberry.file_uploads import Upload
 
 from api.types import SelectStudentResponse, StudentNotFound, Student
-from db.resolvers import get_student_data, get_students, get_group_students
+from db.resolvers import get_student_data, get_students, get_group_students, add_apsent, delete_apsent
 from files.files_handel import FileHandler
 
 
@@ -35,4 +35,14 @@ class Mutation:
     @strawberry.mutation
     async def upload_students(self, file: Upload) -> str:
         await FileHandler.add_batch_students(data_bytes=await file.read())
+        return '{"code": 200}'
+
+    @strawberry.mutation
+    async def add_apsent(self, student_id: int, date: str, number: int) -> str:
+        await add_apsent(student_id=student_id, date=date, number=number)
+        return '{"code": 200}'
+
+    @strawberry.mutation
+    async def delete_apsent(self, student_id: int, date: str, number: int) -> str:
+        await delete_apsent(student_id=student_id, date=date, number=number)
         return '{"code": 200}'

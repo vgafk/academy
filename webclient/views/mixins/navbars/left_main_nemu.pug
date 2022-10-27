@@ -1,0 +1,6 @@
+mixin left_main_menu(current_link_number)
+    H3 Боковое меню
+    +list-group-links(
+        [
+            {text: "Группы", url: "/groups"},
+        ], current_link_number)

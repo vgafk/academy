@@ -7,12 +7,13 @@ from strawberry.federation import Schema
 from strawberry.schema.config import StrawberryConfig
 
 from api.queryes import Query, Mutation
-from api.types import Group
+from api.types import Group, Faculty
 from db import init_models
 
 app = FastAPI()
 
-schema = Schema(query=Query, types=[Group], enable_federation_2=True, mutation=Mutation,
+schema = Schema(query=Query, types=[Group, Faculty], mutation=Mutation,
+                enable_federation_2=True,
                 config=StrawberryConfig(auto_camel_case=False))
 
 

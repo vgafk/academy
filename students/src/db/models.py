@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, Date
 
 from db.base import Base
 
@@ -16,3 +16,11 @@ class Student(Base):
     email = Column(String(length=255), nullable=True)
     phone = Column(String(length=15), nullable=True)
     study_year = Column(Integer, nullable=False)
+
+
+class Absents(Base):
+    __tablename__ = "absents"
+    id = Column(Integer, autoincrement=True, primary_key=True, index=True)
+    student_id = Column(Integer, index=True)
+    date = Column(Date, nullable=False)
+    number = Column(Integer, nullable=False)

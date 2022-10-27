@@ -1,0 +1,26 @@
+mixin group_navbar(facultys_list)
+    - console.log(facultys_list)
+    .group_nav
+        h5.selector_label Факультет:
+          select.selector_field(id='faculty')
+            for faculty in facultys_list
+              option(value = faculty.id) #{faculty.name}
+              // - groups = faculty.groups
+            else
+              option Факультетов в базе не обнаружено
+
+        h5.selector_label Курс:
+          select.selector_field(id='study_year')
+            option(value = 1) 1 курс
+            option(value = 2) 2 курс
+            option(value = 3) 3 курс
+            option(value = 4) 4 курс
+            option(value = 5) 5 курс
+
+
+          //select(name='group_selector').selector_field
+          //  for group in groups
+          //    option(value = group.id) #{group.name}
+          //  else
+          //    option На данном факультете нет групп
+

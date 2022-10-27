@@ -15,7 +15,7 @@ sqlalchemy = "^1.4.42"
 taskipy = "^1.10.3"
 
 [tool.taskipy.tasks]
-server = "uvicorn server:app --host localhost --port 11800 --reload"
+server = "uvicorn server:app --host 0.0.0.0 --port 11800 --reload"
 
 [build-system]
 requires = ["poetry-core"]

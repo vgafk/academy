@@ -6,13 +6,14 @@ from strawberry.fastapi import GraphQLRouter
 from strawberry.federation import Schema
 from strawberry.schema.config import StrawberryConfig
 
-from api.queryes import Query
+from api.queryes import Query, Mutation
 from api.types import User, Student
 from db import init_models
 
 app = FastAPI()
 
-schema = Schema(query=Query, types=[User, Student], enable_federation_2=True,
+schema = Schema(query=Query, types=[User, Student], mutation=Mutation,
+                enable_federation_2=True,
                 config=StrawberryConfig(auto_camel_case=False))
 
 

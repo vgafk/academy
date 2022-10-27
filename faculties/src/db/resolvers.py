@@ -46,7 +46,6 @@ async def add_group(new_group: Dict[str, str]):
     async with get_session() as session:
         try:
             query = insert(Group).values(new_group)
-            print(query)
             await session.execute(query)
             await session.commit()
         except IntegrityError:

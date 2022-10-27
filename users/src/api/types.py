@@ -26,7 +26,7 @@ class UserNotFound:
 
 @strawberry.type
 class UserLoginExists:
-    error: str = "Пользователь с таким логином уже существует"
+    error: str = "Пользователя с таким логином уже существует"
 
 
 @strawberry.type
