@@ -133,10 +133,11 @@ dmypy.json
 # Node.js modeles
 node_modules/
 
-# database
 *.db
 
-source_data/
+.idea
 
-# router Apollo server
-gateway/router
+*.vpp.*
+
+# Файл с переменными среды
+.env
