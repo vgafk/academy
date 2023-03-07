@@ -141,3 +141,5 @@ node_modules/
 
 # Файл с переменными среды
 .env
+
+temp.txt
