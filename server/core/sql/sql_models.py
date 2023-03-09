@@ -3,7 +3,7 @@ from typing import List
 from uuid import uuid4
 
 from sqlalchemy import String, DateTime, Integer, func, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, relationship, mapped_column
 
 from .local_base import Base
 
@@ -37,6 +37,10 @@ class Groups(Base):
     student_groups: Mapped['StudentGroups'] = relationship(back_populates="group", cascade='all')
     sub_group: Mapped[List["SubGroups"]] = relationship(back_populates='group', cascade='all')
     schedule: Mapped[List["Schedule"]] = relationship(back_populates='group', cascade='all')
+
+    # def to_dict(self):
+    #     return {"id": self.id, "name": self.name, "educational_form_id": self.educational_form_id,
+    #             "faculty_id": self.faculty_id}
 
 
 class SubGroups(Base):

@@ -4,32 +4,39 @@ from typing import Optional
 from pydantic import BaseModel
 
 
-class EducationalForms(BaseModel):
+class ValidateModel(BaseModel):
+
+    def to_filter_dict(self):
+        return self.__dict__
+        # return {key: value for key, value in self.__dict__.items() if key not in ['_sa_instance_state']}
+
+
+class EducationalForms(ValidateModel):
     id: Optional[int] = None
     name: str
 
 
-class Faculty(BaseModel):
+class Faculty(ValidateModel):
     id: Optional[int] = None
     full_name: str
     name: str
 
 
-class Groups(BaseModel):
+class Groups(ValidateModel):
     id: Optional[int] = None
     name: str
     educational_form_id: int
     faculty_id: int
 
 
-class SubGroups(BaseModel):
+class SubGroups(ValidateModel):
     id: Optional[int] = None
     name: str
     comments: Optional[str] = None
     group_id: int
 
 
-class Students(BaseModel):
+class Students(ValidateModel):
     id: Optional[int] = None
     surname: str
     name: str
@@ -37,7 +44,7 @@ class Students(BaseModel):
     snils: Optional[str] = None
 
 
-class StudentGroups(BaseModel):
+class StudentGroups(ValidateModel):
     id: Optional[int] = None
     remove_date: Optional[datetime] = None
     student_id: int
@@ -45,19 +52,19 @@ class StudentGroups(BaseModel):
     sub_group_id: Optional[str]
 
 
-class Teachers(BaseModel):
+class Teachers(ValidateModel):
     id: Optional[int] = None
     surname: str
     name: Optional[str] = None
     middle_name: Optional[str] = None
 
 
-class Discipline(BaseModel):
+class Discipline(ValidateModel):
     id: Optional[int] = None
     name: str
 
 
-class Schedule(BaseModel):
+class Schedule(ValidateModel):
     id: Optional[int] = None
     date: datetime
     number_in_day: int
@@ -67,12 +74,12 @@ class Schedule(BaseModel):
     sub_group_id: int
 
 
-class AttendanceTypes(BaseModel):
+class AttendanceTypes(ValidateModel):
     id: Optional[int] = None
     name: str
 
 
-class Attendance(BaseModel):
+class Attendance(ValidateModel):
     id: Optional[int] = None
     student_id: int
     schedule_id: int

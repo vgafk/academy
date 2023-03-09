@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 from api import api_models
 from sql import get_session
@@ -8,44 +8,47 @@ from sql import sql_models
 
 from sqlalchemy import select, insert
 
-router = APIRouter(prefix='/groups', tags=['Groups'])
+
+router = APIRouter(prefix='/groups', tags=['Educational_forms'])
 
 
 # ==================== routers =======================
-@router.get('/')
+@router.post('/', response_model=api_models.Groups)
+async def create(group: api_models.Groups) -> api_models.Groups:
+    return await create_group(group)
+
+
+@router.get('/', response_model=List[api_models.Groups])
 async def get_all() -> List[api_models.Groups]:
     return await get_groups()
 
 
-# @router.get('/{id}')
-# async def get(record_id: int) -> api_models.Groups | None:
-#     await get_groups(record_id)
+@router.get('/{record_id}', response_model=api_models.Groups | Dict[str, str])
+async def get_by_id(record_id: int) -> api_models.Groups | Dict[str, str]:
+    return await get_group_by_id(record_id)
 
-@router.post('/')
-async def all(group: api_models.Groups) -> dict:
-    return await create_group(group)
 
 # ==================== resolvers =======================
+async def create_group(new_group: api_models.Groups) -> api_models.Groups:
+    group = sql_models.Groups(**new_group.to_filter_dict())
+    async with get_session() as session:
+        session.add(group)
+        await session.commit()
+        return api_models.Groups(**group.to_filter_dict())
 
 
-async def get_groups(record_id: int = None):
+async def get_groups() -> List[api_models.Groups]:
     stmt = select(sql_models.Groups)
-    # print(stmt)
-    # if record_id:
-    #     stmt = stmt.filter(sql_models.Groups.id == record_id)
-    #     print(stmt)
     async with get_session() as session:
-        result = (await session.execute(stmt)).all()
-        for res in result:
-            print(res)
-    return []
+        groups_source = (await session.execute(stmt)).scalars().all()
+        groups = [api_models.Groups(**group.to_filter_dict()) for group in groups_source]
+        return groups
 
 
-async def create_group(group: api_models.Groups) -> Dict[str, str]:
-    stmt = insert(sql_models.Groups).values(name=group.name, educational_form_id=group.educational_form_id,
-                                            faculty_id=group.faculty_id)
+async def get_group_by_id(record_id: int) -> api_models.Groups:
     async with get_session() as session:
-        result = (await session.execute(stmt)).all()
-        session.commit()
-
-    return {'code': '200', 'inserted_id': result.inserted_primary_key}
+        group = await session.get(sql_models.Groups, record_id)
+        if group:
+            return api_models.Groups(**group.to_filter_dict())
+        else:
+            raise HTTPException(status_code=404, detail="Item not found")

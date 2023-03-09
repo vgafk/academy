@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator
+from abc import abstractmethod
 
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
 from sqlalchemy.orm import DeclarativeBase
@@ -14,7 +15,10 @@ async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 
 class Base(DeclarativeBase):
-    pass
+
+    # @abstractmethod
+    def to_filter_dict(self):
+        return {key: value for key, value in self.__dict__.items() if key not in ['_sa_instance_state']}
 
 
 async def init_models():
