@@ -16,7 +16,6 @@ async_session = async_sessionmaker(engine, expire_on_commit=False)
 
 class Base(DeclarativeBase):
 
-    # @abstractmethod
     def to_filter_dict(self):
         return {key: value for key, value in self.__dict__.items() if key not in ['_sa_instance_state']}
 

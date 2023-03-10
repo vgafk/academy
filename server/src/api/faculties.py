@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 
 from fastapi import APIRouter, HTTPException
 
@@ -6,9 +6,9 @@ from api import api_models
 from sql import get_session
 from sql import sql_models
 
-from sqlalchemy import select, insert
+from sqlalchemy import select
 
-router = APIRouter(prefix='/faculties', tags=['Educational_forms'])
+router = APIRouter(prefix='/faculties', tags=['Faculties'])
 
 
 # ==================== routers =======================
@@ -23,7 +23,7 @@ async def get_all() -> List[api_models.Faculty]:
 
 
 @router.get('/{record_id}', response_model=api_models.Faculty)
-async def get_by_id(record_id: int) -> api_models.Faculty | Dict[str, str]:
+async def get_by_id(record_id: int) -> api_models.Faculty:
     return await get_faculty_by_id(record_id)
 
 

@@ -21,7 +21,7 @@ class Faculty(Base):
     __tablename__ = 'faculties'
     id: Mapped[int] = mapped_column(primary_key=True)
     full_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    name: Mapped[str] = mapped_column(String(10), nullable=False)
+    name: Mapped[str] = mapped_column(String(10), nullable=False, unique=True)
     group: Mapped[List["Groups"]] = relationship(back_populates='faculty', cascade='all')
 
 
@@ -62,10 +62,11 @@ class Students(Base):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     middle_name: Mapped[str] = mapped_column(String(255), nullable=True)
     snils: Mapped[str] = mapped_column(String(12), nullable=True)
-    student_groups: Mapped['StudentGroups'] = relationship(back_populates="student", cascade='all')
+    student_groups: Mapped[List['StudentGroups']] = relationship(back_populates="student", cascade='all')
     add_date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=func.now())
 
     attendance: Mapped[List['Attendance']] = relationship(back_populates='student', cascade='all')
+
 
 
 class StudentGroups(Base):
@@ -104,11 +105,12 @@ class Schedule(Base):
     __tablename__ = 'schedule'
     id: Mapped[int] = mapped_column(primary_key=True)
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
+    week_number: Mapped[int] = mapped_column(Integer)
     number_in_day: Mapped[int] = mapped_column(Integer)
     teacher_id: Mapped[int] = mapped_column(ForeignKey('teachers.id'))
     discipline_id: Mapped[int] = mapped_column(ForeignKey('disciplines.id'))
     group_id: Mapped[int] = mapped_column(ForeignKey('groups.id'))
-    sub_group_id: Mapped[int] = mapped_column(ForeignKey('sub_groups.id'))
+    sub_group_id: Mapped[int] = mapped_column(ForeignKey('sub_groups.id'), nullable=True)
 
     teacher: Mapped["Teachers"] = relationship(back_populates='schedule')
     discipline: Mapped["Discipline"] = relationship(back_populates='schedule')

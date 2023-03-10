@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import date
 from typing import Optional
 
 from pydantic import BaseModel
@@ -8,7 +8,6 @@ class ValidateModel(BaseModel):
 
     def to_filter_dict(self):
         return self.__dict__
-        # return {key: value for key, value in self.__dict__.items() if key not in ['_sa_instance_state']}
 
 
 class EducationalForms(ValidateModel):
@@ -43,13 +42,29 @@ class Students(ValidateModel):
     middle_name: Optional[str] = None
     snils: Optional[str] = None
 
+    group_id: Optional[int] = None
+    sub_group_id: Optional[int] = None
+
+    def to_filter_dict(self):
+        return {key: value for key, value in self.__dict__.items() if key not in ['group_id', 'sub_group_id']}
+
+
+class StudentQuery(ValidateModel):
+    id: Optional[int] = None
+    surname: Optional[str] = None
+    name: Optional[str] = None
+    middle_name: Optional[str] = None
+    snils: Optional[str] = None
+    group_id: Optional[int] = None
+    sub_group_id: Optional[int] = None
+
 
 class StudentGroups(ValidateModel):
     id: Optional[int] = None
-    remove_date: Optional[datetime] = None
+    remove_date: Optional[date] = None
     student_id: int
     group_id: int
-    sub_group_id: Optional[str]
+    sub_group_id: Optional[str] = None
 
 
 class Teachers(ValidateModel):
@@ -66,12 +81,19 @@ class Discipline(ValidateModel):
 
 class Schedule(ValidateModel):
     id: Optional[int] = None
-    date: datetime
+    date: date
     number_in_day: int
+    week_number: int
     teacher_id: int
     discipline_id: int
     group_id: int
     sub_group_id: int
+
+
+class ScheduleQuery(ValidateModel):
+    schedule_date: Optional[date] = None
+    week_number: Optional[int] = None
+    group_id: Optional[int] = None
 
 
 class AttendanceTypes(ValidateModel):
