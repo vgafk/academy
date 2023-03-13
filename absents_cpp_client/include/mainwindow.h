@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QDate>
+#include <QListWidgetItem>
 #include <QMainWindow>
 #include <QSqlDatabase>
+#include "apistructs.h"
+#include "baseworker.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,58 +20,73 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
-
 private slots:
-        void selectStudents(int index);
+//    void selectStudents(int index);
 
-    void on_btn_save_clicked();
+//    void on_btn_save_clicked();
+
+    void on_calendarWidget_clicked(const QDate &date);
+    void on_lw_groupList_currentRowChanged(int currentRow);
+
+    void setFacultiesList(QList<Faculty> faculties);
 
 private:
     Ui::MainWindow *ui;
 
-    struct AbsentStr{
-        int student_id;
-        QDate date;
-        int number;
+    enum Roles{
+        GroupId = Qt::UserRole
     };
 
-    enum Fields{
-        UserId = Qt::UserRole,
-        Number,
-        Date,
-        State,
-        Id
-    };
+    BaseWorker baseWorker;
 
-    enum States{
-        Absent,
-        Present
-    };
+    void getFacultyList();
 
-    QString m_gatewayIp;
-    int m_gatewayPort;
-    const int m_columnCount;
+    void selectAbsets();
+    void selectAbsets(int groupId, int weekNumber);
 
-    QSqlDatabase m_base;
+//    struct AbsentStr{
+//        int student_id;
+//        QDate date;
+//        int number;
+//    };
 
-    void setBase();
+//    enum Fields{
+//        UserId = Qt::UserRole,
+//        Number,
+//        Date,
+//        State,
+//        Id
+//    };
 
-    void loadSettings();
+//    enum States{
+//        Absent,
+//        Present
+//    };
+
+//    QString m_gatewayIp;
+//    int m_gatewayPort;
+//    const int m_columnCount;
+
+//    QSqlDatabase m_base;
+
+//    void setBase();
+
+//    void loadSettings();
 
 
-    void getGroups();
+//    void getGroups();
 
-    void setTableColumnHeaders();
+//    void setTableColumnHeaders();
 
-    QList<QPair<QString, QDate> > getWeekDays();
-    bool checkAbsents(QDate date, int number, QList<AbsentStr> *absents);
+//    QList<QPair<QString, QDate> > getWeekDays();
+//    bool checkAbsents(QDate date, int number, QList<AbsentStr> *absents);
 
-    void saveAbsents();
-    void addAbsents(int row, int column);
-    void deleteAbsents(int row, int column);
+//    void saveAbsents();
+//    void addAbsents(int row, int column);
+//    void deleteAbsents(int row, int column);
 
 
-    void setAbsents(int student_id, int row);
+//    void setAbsents(int student_id, int row);
 
 };
 #endif // MAINWINDOW_H

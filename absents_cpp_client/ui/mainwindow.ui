@@ -14,119 +14,149 @@
    <string>Ведомость посещаемости</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="0,1">
       <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Группа</string>
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout" stretch="0,0,0,0,0,1">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
+           <item>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Факультет:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cb_group_2">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Неделя</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCalendarWidget" name="calendarWidget">
+           <property name="font">
+            <font>
+             <pointsize>7</pointsize>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Курс:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="cb_group">
+             <property name="minimumSize">
+              <size>
+               <width>100</width>
+               <height>0</height>
+              </size>
+             </property>
+             <item>
+              <property name="text">
+               <string>Все</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>1 курс</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>2 курс</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>3 курс</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>4 курс</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>5 курс</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Группа:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QListWidget" name="lw_groupList"/>
+         </item>
+        </layout>
        </widget>
       </item>
       <item>
-       <widget class="QComboBox" name="cb_group">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
         </property>
+        <attribute name="horizontalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
        </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Неделя</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="cb_week">
-        <item>
-         <property name="text">
-          <string>-</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>24.10 - 28.10</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>31.10 - 04.11</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>07.11 - 11.11</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>14.11 -18.11</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>21.11 -25.11</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>28.11 -02.12</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>05.12 -09.12</string>
-         </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>12.12 -16.12</string>
-         </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </item>
     <item>
-     <widget class="QTableWidget" name="tableWidget">
-      <property name="alternatingRowColors">
-       <bool>true</bool>
-      </property>
-      <attribute name="horizontalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-      <attribute name="verticalHeaderVisible">
-       <bool>false</bool>
-      </attribute>
-     </widget>
-    </item>
-    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="btn_reset">
-        <property name="text">
-         <string>Сбросить</string>
-        </property>
-       </widget>
-      </item>
       <item>
        <spacer name="horizontalSpacer_2">
         <property name="orientation">
@@ -139,6 +169,13 @@
          </size>
         </property>
        </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btn_reset">
+        <property name="text">
+         <string>Сбросить</string>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QPushButton" name="btn_save">
