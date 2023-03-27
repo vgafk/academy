@@ -29,13 +29,14 @@ class Groups(Base):
     __tablename__ = 'groups'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(10), nullable=False)
-    educational_form_id: Mapped[int] = mapped_column(ForeignKey('educational_forms.id'))
+    full_name: Mapped[str] = mapped_column(String(255), nullable=True)
+    delete_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     faculty_id: Mapped[int] = mapped_column(ForeignKey('faculties.id'), nullable=False)
+    educational_form_id: Mapped[int] = mapped_column(ForeignKey('educational_forms.id'))
 
-    educational_form: Mapped["EducationalForms"] = relationship(back_populates='group')
     faculty: Mapped[List['Faculty']] = relationship(back_populates='group')
+    educational_form: Mapped["EducationalForms"] = relationship(back_populates='group')
     student_groups: Mapped['StudentGroups'] = relationship(back_populates="group", cascade='all')
-    sub_group: Mapped[List["SubGroups"]] = relationship(back_populates='group', cascade='all')
     schedule: Mapped[List["Schedule"]] = relationship(back_populates='group', cascade='all')
 
     # def to_dict(self):
@@ -44,15 +45,13 @@ class Groups(Base):
 
 
 class SubGroups(Base):
-    __tablename__ = 'sub_groups'
+    __tablename__ = 'subgroups'
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     comments: Mapped[str] = mapped_column(String(500), nullable=True)
-    group_id: Mapped[int] = mapped_column(ForeignKey('groups.id'))
 
-    group: Mapped["Groups"] = relationship(back_populates='sub_group')
-    student_groups: Mapped[List["StudentGroups"]] = relationship(back_populates='sub_group', cascade='all', )
-    schedule: Mapped[List["Schedule"]] = relationship(back_populates='sub_group', cascade='all')
+    student_subgroups: Mapped[List["StudentSubgroups"]] = relationship(back_populates='subgroup', cascade='all', )
+    schedule: Mapped[List["Schedule"]] = relationship(back_populates='subgroup', cascade='all')
 
 
 class Students(Base):
@@ -62,11 +61,12 @@ class Students(Base):
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     middle_name: Mapped[str] = mapped_column(String(255), nullable=True)
     snils: Mapped[str] = mapped_column(String(12), nullable=True)
+
     student_groups: Mapped[List['StudentGroups']] = relationship(back_populates="student", cascade='all')
+    student_subgroups: Mapped[List['StudentSubgroups']] = relationship(back_populates="student", cascade='all')
     add_date: Mapped[datetime] = mapped_column(DateTime, nullable=False, default=func.now())
 
     attendance: Mapped[List['Attendance']] = relationship(back_populates='student', cascade='all')
-
 
 
 class StudentGroups(Base):
@@ -76,11 +76,20 @@ class StudentGroups(Base):
     remove_date: Mapped[datetime] = mapped_column(DateTime, nullable=True)
     student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
     group_id: Mapped[int] = mapped_column(ForeignKey("groups.id"), nullable=False)
-    sub_group_id: Mapped[int] = mapped_column(ForeignKey("sub_groups.id"), nullable=True)
+    praepostor: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
 
     student: Mapped["Students"] = relationship(back_populates='student_groups')
     group: Mapped["Groups"] = relationship(back_populates='student_groups', cascade='all')
-    sub_group: Mapped["SubGroups"] = relationship(back_populates='student_groups', cascade='all')
+
+
+class StudentSubgroups(Base):
+    __tablename__ = 'student_subgroups'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    student_id: Mapped[int] = mapped_column(ForeignKey("students.id"), nullable=False)
+    subgroup_id: Mapped[int] = mapped_column(ForeignKey("subgroups.id"), nullable=True)
+
+    student: Mapped["Students"] = relationship(back_populates='student_subgroups')
+    subgroup: Mapped["SubGroups"] = relationship(back_populates='student_subgroups', cascade='all')
 
 
 class Teachers(Base):
@@ -90,7 +99,17 @@ class Teachers(Base):
     name: Mapped[str] = mapped_column(String(255), nullable=True)
     middle_name: Mapped[str] = mapped_column(String(255), nullable=True)
 
-    schedule: Mapped[List["Schedule"]] = relationship(back_populates='teacher', cascade='all')
+    teacher_schedule: Mapped[List["TeacherSchedule"]] = relationship(back_populates='teacher', cascade='all')
+
+
+class TeacherSchedule(Base):
+    __tablename__ = 'teacher_schedule'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    teacher_id: Mapped[int] = mapped_column(ForeignKey('teachers.id'))
+    schedule_id: Mapped[int] = mapped_column(ForeignKey('schedule.id'))
+
+    teacher: Mapped["Teachers"] = relationship(back_populates='teacher_schedule')
+    schedule: Mapped[List["Schedule"]] = relationship(back_populates='teacher_schedule', cascade='all')
 
 
 class Discipline(Base):
@@ -107,17 +126,17 @@ class Schedule(Base):
     date: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     week_number: Mapped[int] = mapped_column(Integer)
     number_in_day: Mapped[int] = mapped_column(Integer)
-    teacher_id: Mapped[int] = mapped_column(ForeignKey('teachers.id'))
     discipline_id: Mapped[int] = mapped_column(ForeignKey('disciplines.id'))
     group_id: Mapped[int] = mapped_column(ForeignKey('groups.id'))
-    sub_group_id: Mapped[int] = mapped_column(ForeignKey('sub_groups.id'), nullable=True)
+    subgroup_id: Mapped[int] = mapped_column(ForeignKey('subgroups.id'), nullable=True)
 
-    teacher: Mapped["Teachers"] = relationship(back_populates='schedule')
     discipline: Mapped["Discipline"] = relationship(back_populates='schedule')
     group: Mapped["Groups"] = relationship(back_populates='schedule')
-    sub_group: Mapped["SubGroups"] = relationship(back_populates='schedule')
+    subgroup: Mapped["SubGroups"] = relationship(back_populates='schedule')
+    teacher_schedule: Mapped[List["TeacherSchedule"]] = relationship(back_populates='schedule', cascade='all')
 
     attendance: Mapped[List['Attendance']] = relationship(back_populates='schedule', cascade='all')
+
 
 class AttendanceTypes(Base):
     __tablename__ = 'attendance_types'

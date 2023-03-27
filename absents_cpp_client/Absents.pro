@@ -9,12 +9,14 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    src/absenttypebox.cpp \
     src/baseworker.cpp \
     src/main.cpp \
     src/mainwindow.cpp \
     src/settings.cpp
 
 HEADERS += \
+    include/absenttypebox.h \
     include/apistructs.h \
     include/baseworker.h \
     include/mainwindow.h \
@@ -39,3 +41,6 @@ LD_LIBRARY_PATH= 3rdparty/openssl-1.1.1q/
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

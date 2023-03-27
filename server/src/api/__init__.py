@@ -6,6 +6,6 @@ from .teachers import router as t_router
 from .discipline import router as d_router
 from .schedule import router as sch_router
 from .students import router as s_router
+from .attendance import router as a_router
 
-
-routers = [g_router, ef_router, f_router, sg_router, t_router, d_router, sch_router, s_router]
+routers = [g_router, ef_router, f_router, sg_router, t_router, d_router, sch_router, s_router, a_router]

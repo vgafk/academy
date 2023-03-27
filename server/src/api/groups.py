@@ -20,6 +20,7 @@ async def create(group: api_models.Groups) -> api_models.Groups:
 
 @router.get('/', response_model=List[api_models.Groups])
 async def get_all() -> List[api_models.Groups]:
+    print("get_all")
     return await get_groups()
 
 
@@ -38,7 +39,7 @@ async def create_group(new_group: api_models.Groups) -> api_models.Groups:
 
 
 async def get_groups() -> List[api_models.Groups]:
-    stmt = select(sql_models.Groups)
+    stmt = select(sql_models.Groups).where(sql_models.Groups.delete_date.is_(None))
     async with get_session() as session:
         groups_source = (await session.execute(stmt)).scalars().all()
         groups = [api_models.Groups(**group.to_filter_dict()) for group in groups_source]

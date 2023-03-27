@@ -15,6 +15,9 @@ public:
     void setHostAddress(QString address, int port);
     QPair<QString, int> getHostAddress();
 
+    void setDayLessonsCount(int count);
+    int getDayLessonsCount();
+
 
 private:
     void setValue(QString key, QVariant value);

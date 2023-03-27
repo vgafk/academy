@@ -1,5 +1,5 @@
 from datetime import date
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
 
@@ -84,10 +84,11 @@ class Schedule(ValidateModel):
     date: date
     number_in_day: int
     week_number: int
-    teacher_id: int
-    discipline_id: int
+    discipline_id: Optional[int]
+    discipline_name: Optional[str]
     group_id: int
-    sub_group_id: int
+    group_name: Optional[str]
+    teachers: Optional[str]
 
 
 class ScheduleQuery(ValidateModel):
@@ -103,6 +104,6 @@ class AttendanceTypes(ValidateModel):
 
 class Attendance(ValidateModel):
     id: Optional[int] = None
-    student_id: int
-    schedule_id: int
-    attendance_type_id: int
+    student_id: Optional[int]
+    schedule_id: Optional[int]
+    attendance_type_id: Optional[int]

@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/button_cancel_8964.png</file>
+        <file>icons/button_ok_4514.png</file>
+        <file>icons/dialog-error_3549.png</file>
+        <file>icons/warning_2996.png</file>
+        <file>icons/status_unknown_5125.png</file>
+    </qresource>
+</RCC>

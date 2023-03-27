@@ -13,12 +13,12 @@ app = FastAPI(title='vgafkAPI',
               version='0.1 Alpha',
               description='vgafkAPI - API Волгоградской академии физической культуры')
 
-[app.include_router(router) for router in routers]
+[app.include_router(router, prefix='/api') for router in routers]
 
 
-@app.router.get('/', include_in_schema=False)
-def index() -> RedirectResponse:
-    return RedirectResponse('/docs')
+# @app.router.get('/', include_in_schema=False)
+# def index() -> RedirectResponse:
+#     return RedirectResponse('/docs')
 
 
 if __name__ == '__main__':

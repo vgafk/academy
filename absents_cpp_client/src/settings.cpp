@@ -22,6 +22,16 @@ QPair<QString, int> Settings::getHostAddress()
     return qMakePair(getValue("host_address").toString(), getValue("host_port").toInt());
 }
 
+void Settings::setDayLessonsCount(int count)
+{
+    setValue("day_lessons_count", count);
+}
+
+int Settings::getDayLessonsCount()
+{
+    return getValue("day_lessons_count").toInt();
+}
+
 void Settings::setValue(QString key, QVariant value)
 {
     QSettings settings("config.ini", QSettings::IniFormat);

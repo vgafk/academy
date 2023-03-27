@@ -1,10 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QCloseEvent>
 #include <QDate>
 #include <QListWidgetItem>
 #include <QMainWindow>
 #include <QSqlDatabase>
+#include <QMenu>
+
 #include "apistructs.h"
 #include "baseworker.h"
 
@@ -19,74 +22,67 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    virtual void closeEvent(QCloseEvent *e);
 
 private slots:
-//    void selectStudents(int index);
-
-//    void on_btn_save_clicked();
-
+    //    void setFacultiesList(QList<Faculty> faculties);
+    void on_cb_faculties_currentIndexChanged(int index);
+    void on_cb_cource_currentIndexChanged(int index);
+    void on_lw_groupList_currentItemChanged(QListWidgetItem *current, QListWidgetItem *previous);
     void on_calendarWidget_clicked(const QDate &date);
-    void on_lw_groupList_currentRowChanged(int currentRow);
+    void on_btn_createSchedule_clicked();
 
-    void setFacultiesList(QList<Faculty> faculties);
+    void dataChenget();
+//    void deleteAbsent(int absentId);
+//    void addAbsent(int lessonId, int userId, int absentType);
+//    void updateAbsent(int absentId, int absentType);
+    void on_btn_reset_clicked();
+    void on_btn_save_clicked();
+    void customHeaderMenuRequested(QPoint pos);
 
 private:
     Ui::MainWindow *ui;
 
     enum Roles{
-        GroupId = Qt::UserRole
+        GroupId = Qt::UserRole,
+        StudentId,
+        LessonId
     };
+
+    enum RowsName{
+        DateRow,
+        NumberInDayRow,
+        TeacherRow
+    };
+
+    const int emptyPage;
+    const int schedulePage;
+    const int workDayCount;
+    int dayLessonsCount;
 
     BaseWorker baseWorker;
 
-    void getFacultyList();
+    QList<Group> groups;
 
-    void selectAbsets();
-    void selectAbsets(int groupId, int weekNumber);
+    bool changet;
 
-//    struct AbsentStr{
-//        int student_id;
-//        QDate date;
-//        int number;
-//    };
-
-//    enum Fields{
-//        UserId = Qt::UserRole,
-//        Number,
-//        Date,
-//        State,
-//        Id
-//    };
-
-//    enum States{
-//        Absent,
-//        Present
-//    };
-
-//    QString m_gatewayIp;
-//    int m_gatewayPort;
-//    const int m_columnCount;
-
-//    QSqlDatabase m_base;
-
-//    void setBase();
-
-//    void loadSettings();
+    QList<int> deletedAbsent;
+    QList<Absent> updatedAbsent;
+    QList<Absent> addedAbsent;
 
 
-//    void getGroups();
-
-//    void setTableColumnHeaders();
-
-//    QList<QPair<QString, QDate> > getWeekDays();
-//    bool checkAbsents(QDate date, int number, QList<AbsentStr> *absents);
-
-//    void saveAbsents();
-//    void addAbsents(int row, int column);
-//    void deleteAbsents(int row, int column);
-
-
-//    void setAbsents(int student_id, int row);
-
+    void selectData();
+    void setFaculties();
+    void setCourses();
+    void setGroups();
+    void getSchedule();
+    void getAbsents();
+    void setSchedule(QList<Schedule *> schedule);
+    void setScheduleHeadrows(QList<Schedule *> schedule);
+    QDate getWeekStartDate();
+    void createSchedule();
+    void getStudents();
+    void saveData();
+    QMenu *createMenu();
 };
 #endif // MAINWINDOW_H

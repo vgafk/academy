@@ -16,5 +16,5 @@ LOCAL_BASE_DRIVER = 'mysql+asyncmy'
 
 # Настройки сервера
 SERVER_HOST = '0.0.0.0'
-SERVER_PORT = 9000
+SERVER_PORT = 8010
 
